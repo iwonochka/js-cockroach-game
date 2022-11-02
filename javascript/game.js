@@ -1,6 +1,5 @@
 WIDTH = 1000
 HEIGHT = 500
-CANVAS = document.querySelector("canvas")
 
 class Game {
   constructor() {
@@ -30,8 +29,6 @@ class Game {
 		this.drawObstacles()
     //Draw goal
     image(this.goal, this.background.width - 200, this.player.y, (WIDTH * 0.2), (HEIGHT * 0.2))
-    // Collision
-    // if (this.collision(this.player)) this.gameOver()
   }
 
   scroll() {
@@ -49,23 +46,11 @@ class Game {
 		}
   }
 
-  collision(playerInfo) {
-		// Get the bottom of the obstacle
-		let obstacleX = this.obstacle.x
-		let obstacleY = this.obstacle.y + this.obstacle.height
-
-		// Get the middle of the player
-		let playerX = playerInfo.x + playerInfo.width / 2
-		let playerY = playerInfo.y + playerInfo.height / 2
-
-        // dist(x1, y1, x2, y2) returns the distance between the objects
-		if (dist(obstacleX, obstacleY, playerX, playerY) < 25) {
-      return true
-		} else {
-			// Increment the score
-			this.player.score += 10
-			return false
-		}
+  collision(player, obstacle) {
+      if (obstacle.y + obstacle.height > this.player.y + this.player.height / 2 && (obstacle.x + obstacle.width / 2 >= player.x && obstacle.x + obstacle.width / 2 <= player.x + player.width )) {
+        this.player.image = this.player.imageLoose
+        return true
+    }
 	}
 
   drawObstacles() {
@@ -75,33 +60,19 @@ class Game {
     this.obstacles.forEach((obstacle) => {
       image(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height)
       obstacle.y += obstacle.direction
-      if (obstacle.y + obstacle.height >= (this.player.y + this.player.height / 2)) {
+      if (obstacle.y + obstacle.height >= (this.player.y + this.player.height / 2 + 20)) {
         obstacle.direction = -obstacle.direction
       }
+      if (this.collision(this.player, obstacle)) this.gameOver()
     })
 	}
 
+  gameOver() {
+    const modal = document.querySelector(".modal")
+    modal.style.display = "block";
+    modal.style.top = "25%";
+    document.querySelector(".btn-close").addEventListener("click", () => {modal.style.display = "none"})
+    document.querySelector(".btn-primary").addEventListener("click", () => {location.reload()})
 
-
-  // gameOver() {
-  //   const popUp = document.createElement("section")
-  //   CANVAS.appendChild(popUp)
-  //   popUp.innerHTML = `<div class="modal" tabindex="-1">
-  //   <div class="modal-dialog">
-  //     <div class="modal-content">
-  //       <div class="modal-header">
-  //         <h5 class="modal-title">Modal title</h5>
-  //         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-  //       </div>
-  //       <div class="modal-body">
-  //         <p>Oh no, you got SMAAAASHED...Wanna try again?</p>
-  //       </div>
-  //       <div class="modal-footer">
-  //         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quit</button>
-  //         <button type="button" class="btn btn-primary">Play again</button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // </div>`
-  // }
+  }
 }

@@ -10,3 +10,8 @@ canvas {
   left: 0;
   right: 0;
 }
+
+.modal {
+  position: absolute;
+  top: 25%;
+}

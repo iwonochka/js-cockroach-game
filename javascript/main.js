@@ -16,3 +16,5 @@ function setup() {
 function draw() {
 	game.draw()
 }
+
+// if (game.collision(game.player, game.obstacles)) game.gameOver()
