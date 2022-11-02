@@ -10,6 +10,7 @@ class Player {
 		this.x = 0
 		this.y = 450 - this.height
     this.score = 0
+    this.alive = true
   }
 
   preload() {
@@ -22,10 +23,10 @@ class Player {
 
   draw() {
     image(this.image, this.x, this.y, this.width, this.height)
-    if (keyIsDown(39)) {
+    if (keyIsDown(39) && this.alive) {
       this.goRight()
       this.image = this.imageRight
-    } else if (keyIsDown(37)) {
+    } else if (keyIsDown(37) && this.alive) {
       this.goLeft()
       this.image = this.imageLeft
     }
@@ -33,13 +34,15 @@ class Player {
 
   goLeft() {
     if (this.x > WIDTH - (WIDTH - 50)) {
-      this.x -= 20
+      this.x -= 10
+      document.getElementById("run").play()
     }
   }
 
   goRight() {
-    if (this.x < WIDTH - this.width) {
-      this.x += 20
+    if (this.x < WIDTH / 2 + 200) {
+      this.x += 10
+      document.getElementById("run").play()
     }
   }
 }

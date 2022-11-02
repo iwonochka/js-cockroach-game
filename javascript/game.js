@@ -7,7 +7,7 @@ class Game {
 		this.player = new Player()
 		this.obstacles = []
     this.obstacleImgs = {obs1: null, obs2: null, obs3: null}
-    this.goal
+    this.goal = new Goal()
   }
 
   preload() {
@@ -16,7 +16,8 @@ class Game {
     this.obstacleImgs.obs1 = loadImage(`../assets/obs1.png`)
     this.obstacleImgs.obs2 = loadImage(`../assets/obs2.png`)
     this.obstacleImgs.obs3 = loadImage(`../assets/obs3.png`)
-    this.goal = loadImage(`../assets/goal.gif`)
+    this.goal.preload()
+
   }
 
   draw() {
@@ -28,34 +29,45 @@ class Game {
     // Draw the obstacles
 		this.drawObstacles()
     //Draw goal
-    image(this.goal, this.background.width - 200, this.player.y, (WIDTH * 0.2), (HEIGHT * 0.2))
+    this.drawGoal()
+    if (this.win()) this.gameOver("You won!", "Congratulations! You reached the trash can of plenty!")
+    this.obstacles.forEach((obstacle) => {
+      if (this.collision(obstacle)) this.gameOver("Game over!", "Oh no, you got smashed!")
+    })
   }
 
   scroll() {
-    if (this.player.x >= (WIDTH - this.player.width) && this.background.x > -(this.background.width - WIDTH) && (keyIsDown(39))) {
-      this.background.x -= 20
-    } else if (this.background.x < 0 && (keyIsDown(37))) {
-      this.background.x += 20
+    if (this.player.x >= (WIDTH - WIDTH / 2) && this.background.x > -(this.background.width - WIDTH) && (keyIsDown(39)) && this.player.alive) {
+      this.background.x -= 10
+    } else if (this.background.x < 0 && (keyIsDown(37)) && this.player.alive) {
+      this.background.x += 10
     }
   }
 
   addObstacles() {
     let keys = Object.keys(this.obstacleImgs)
-    if (frameCount % 50 === 0) {
+    if (frameCount % 40 === 0 && (this.background.x >= -3800)) {
 			this.obstacles.push(new Obstacle(this.obstacleImgs[keys[keys.length * Math.random() << 0]]))
 		}
   }
 
-  collision(player, obstacle) {
-      if (obstacle.y + obstacle.height > this.player.y + this.player.height / 2 && (obstacle.x + obstacle.width / 2 >= player.x && obstacle.x + obstacle.width / 2 <= player.x + player.width )) {
-        this.player.image = this.player.imageLoose
-        return true
+  drawGoal() {
+    if (this.background.x >= -4000 && this.background.x <= -3900 ) {
+      image(this.goal.image, WIDTH - this.goal.width, this.goal.y, this.goal.width, this.goal.height)
     }
-	}
+  }
+
+  collision(obstacle) {
+    if (obstacle.y + obstacle.height > this.player.y + this.player.height / 2 && (obstacle.x + obstacle.width / 2 >= this.player.x && obstacle.x + obstacle.width / 2 <= this.player.x + this.player.width )) {
+      this.player.alive = false
+      this.player.image = this.player.imageLoose
+      document.getElementById("loose").play()
+      return true
+    }
+  }
+
 
   drawObstacles() {
-    // if obstacle's y is between 0 and player's y it should move down
-    // if obstacle's y reaches player's y obstacle should move up until it reaches 0
     this.addObstacles()
     this.obstacles.forEach((obstacle) => {
       image(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height)
@@ -63,16 +75,27 @@ class Game {
       if (obstacle.y + obstacle.height >= (this.player.y + this.player.height / 2 + 20)) {
         obstacle.direction = -obstacle.direction
       }
-      if (this.collision(this.player, obstacle)) this.gameOver()
     })
 	}
 
-  gameOver() {
+  win() {
+    if ((dist(this.player.x, this.player.y, this.goal.x, this.goal.y)) >= 730 && (this.background.x >= -4000 && this.background.x <= -3900 )) {
+      this.player.image = this.player.imageWin
+      const winSound = document.getElementById("win").play()
+      setTimeout(() => {
+        winSound.pause();
+      }, 3000);
+      return true
+    }
+  }
+
+  gameOver(title, text) {
     const modal = document.querySelector(".modal")
     modal.style.display = "block";
     modal.style.top = "25%";
     document.querySelector(".btn-close").addEventListener("click", () => {modal.style.display = "none"})
     document.querySelector(".btn-primary").addEventListener("click", () => {location.reload()})
-
+    document.querySelector(".modal-title").innerText = title
+    document.querySelector(".modal-body p").innerText = text
   }
 }

@@ -3,13 +3,19 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
-        <title>Cockroach Game</title>
+        <link rel="stylesheet" href="./style.css" />
+        <title>Save the Cockroach</title>
+        <audio id="run" src="./assets/running.wav"></audio>
+        <audio id="win" src="./assets/win.mp3"></audio>
+        <audio id="loose" src="./assets/gameover.mp3"></audio>
     </head>
     <body>
-        <h1>Cockroach game</h1>
+        <h1>Save the cockroach</h1>
         <div class="modal" tabindex="-1">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -26,7 +32,9 @@
             </div>
           </div>
         </div>
+        <img src="./assets/img1.png" alt="cockroach">
         <script src="./javascript/obstacle.js"></script>
+        <script src="./javascript/goal.js"></script>
         <script src="./javascript/background.js"></script>
         <script src="./javascript/player.js"></script>
         <script src="./javascript/game.js"></script>
