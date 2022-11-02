@@ -1,5 +1,6 @@
 WIDTH = 1000
 HEIGHT = 500
+CANVAS = document.querySelector("canvas")
 
 const game = new Game()
 
@@ -15,5 +16,3 @@ function setup() {
 function draw() {
 	game.draw()
 }
-
-
