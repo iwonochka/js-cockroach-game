@@ -96,6 +96,7 @@ class Game {
     modal.style.visibility = "visible";
     document.querySelector(".close-btn").addEventListener("click", () => {modal.style.display = "none"})
     document.querySelector(".action-btn").addEventListener("click", () => {location.reload()})
+    document.addEventListener("keydown", (e) => { if (e.key === "Enter") location.reload()})
     document.querySelector(".flex-col h2").innerText = title
     document.querySelector(".flex-col p").innerText = text
   }
