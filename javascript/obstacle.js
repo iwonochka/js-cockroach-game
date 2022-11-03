@@ -9,8 +9,8 @@ class Obstacle {
 	}
 
   preload() {
-    this.img1 = loadImage(`../assets/obs1.png`)
-    this.img2 = loadImage(`../assets/obs2.png`)
-    this.img3 = loadImage(`../assets/obs3.png`)
+    this.img1 = loadImage(`assets/obs1.png`)
+    this.img2 = loadImage(`assets/obs2.png`)
+    this.img3 = loadImage(`assets/obs3.png`)
   }
 }

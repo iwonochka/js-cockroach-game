@@ -8,6 +8,6 @@ class Goal {
   }
 
   preload() {
-    this.image = loadImage(`../assets/goal.gif`)
+    this.image = loadImage(`assets/goal.gif`)
   }
 }

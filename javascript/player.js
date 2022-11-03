@@ -14,10 +14,10 @@ class Player {
   }
 
   preload() {
-    this.imageRight = loadImage("../assets/cockroach-right.gif")
-    this.imageLeft = loadImage("../assets/cockroach-left.gif")
-    this.imageWin = loadImage("../assets/roach-win.gif")
-    this.imageLoose = loadImage("../assets/roach-loose.gif")
+    this.imageRight = loadImage("assets/cockroach-right.gif")
+    this.imageLeft = loadImage("assets/cockroach-left.gif")
+    this.imageWin = loadImage("assets/roach-win.gif")
+    this.imageLoose = loadImage("assets/roach-loose.gif")
     this.image = this.imageRight
   }
 

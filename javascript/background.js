@@ -8,7 +8,7 @@ class Background {
     }
 
   preload() {
-    this.image = loadImage("../assets/background.png")
+    this.image = loadImage("assets/background.png")
   }
 
   draw() {

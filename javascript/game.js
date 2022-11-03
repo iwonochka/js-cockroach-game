@@ -13,9 +13,9 @@ class Game {
   preload() {
     this.background.preload()
     this.player.preload()
-    this.obstacleImgs.obs1 = loadImage(`../assets/obs1.png`)
-    this.obstacleImgs.obs2 = loadImage(`../assets/obs2.png`)
-    this.obstacleImgs.obs3 = loadImage(`../assets/obs3.png`)
+    this.obstacleImgs.obs1 = loadImage(`assets/obs1.png`)
+    this.obstacleImgs.obs2 = loadImage(`assets/obs2.png`)
+    this.obstacleImgs.obs3 = loadImage(`assets/obs3.png`)
     this.goal.preload()
   }
 
