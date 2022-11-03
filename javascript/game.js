@@ -17,7 +17,6 @@ class Game {
     this.obstacleImgs.obs2 = loadImage(`../assets/obs2.png`)
     this.obstacleImgs.obs3 = loadImage(`../assets/obs3.png`)
     this.goal.preload()
-
   }
 
   draw() {
@@ -30,9 +29,9 @@ class Game {
 		this.drawObstacles()
     //Draw goal
     this.drawGoal()
-    if (this.win()) this.gameOver("You won!", "Congratulations! You reached the trash can of plenty!")
+    if (this.win()) this.gameOver("You won!", "Congratulations! You reached the trash can of plenty! 👏")
     this.obstacles.forEach((obstacle) => {
-      if (this.collision(obstacle)) this.gameOver("Game over!", "Oh no, you got smashed!")
+      if (this.collision(obstacle)) this.gameOver("Game over!", "Oh no, you got smashed! 😟")
     })
   }
 
@@ -46,9 +45,20 @@ class Game {
 
   addObstacles() {
     let keys = Object.keys(this.obstacleImgs)
-    if (frameCount % 40 === 0 && (this.background.x >= -3800)) {
+    if (frameCount % 30 === 0 && (this.background.x >= -3800)) {
 			this.obstacles.push(new Obstacle(this.obstacleImgs[keys[keys.length * Math.random() << 0]]))
 		}
+  }
+
+  drawObstacles() {
+    this.addObstacles()
+    this.obstacles.forEach((obstacle) => {
+      image(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height)
+      obstacle.y += obstacle.direction
+      if (obstacle.y + obstacle.height >= (this.player.y + this.player.height / 2 + 20)) {
+        obstacle.direction = -obstacle.direction
+      }
+    })
   }
 
   drawGoal() {
@@ -66,36 +76,20 @@ class Game {
     }
   }
 
-
-  drawObstacles() {
-    this.addObstacles()
-    this.obstacles.forEach((obstacle) => {
-      image(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height)
-      obstacle.y += obstacle.direction
-      if (obstacle.y + obstacle.height >= (this.player.y + this.player.height / 2 + 20)) {
-        obstacle.direction = -obstacle.direction
-      }
-    })
-	}
-
   win() {
     if ((dist(this.player.x, this.player.y, this.goal.x, this.goal.y)) >= 730 && (this.background.x >= -4000 && this.background.x <= -3900 )) {
       this.player.image = this.player.imageWin
-      const winSound = document.getElementById("win").play()
-      setTimeout(() => {
-        winSound.pause();
-      }, 3000);
+      document.getElementById("win").play()
       return true
     }
   }
 
   gameOver(title, text) {
     const modal = document.querySelector(".modal")
-    modal.style.display = "block";
-    modal.style.top = "25%";
-    document.querySelector(".btn-close").addEventListener("click", () => {modal.style.display = "none"})
-    document.querySelector(".btn-primary").addEventListener("click", () => {location.reload()})
-    document.querySelector(".modal-title").innerText = title
-    document.querySelector(".modal-body p").innerText = text
+    modal.style.visibility = "visible";
+    document.querySelector(".close-btn").addEventListener("click", () => {modal.style.display = "none"})
+    document.querySelector(".action-btn").addEventListener("click", () => {location.reload()})
+    document.querySelector(".flex-col h2").innerText = title
+    document.querySelector(".flex-col p").innerText = text
   }
 }

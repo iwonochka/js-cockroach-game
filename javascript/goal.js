@@ -10,5 +10,4 @@ class Goal {
   preload() {
     this.image = loadImage(`../assets/goal.gif`)
   }
-
 }

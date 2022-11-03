@@ -1,7 +1,6 @@
 class Obstacle {
 	constructor(img) {
 		this.image = img
-        // p5 provides the variables width and height - they contain width and height of the canvas
 		this.x = (Math.random() * WIDTH)
 		this.y = -200
 		this.width = 200
